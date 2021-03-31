@@ -6,9 +6,13 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const ExpressError = require('./utilities/ExpressError');
 const methodOverride = require('method-override');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
-const campgrounds = require('./routes/campgrounds'); //route campgrounds
-const reviews = require('./routes/reviews'); //route reviews
+const userRoutes = require('./routes/usersAuth');
+const campgroundRoutes = require('./routes/campgrounds'); //route campgrounds
+const reviewRoutes = require('./routes/reviews'); //route reviews
 const { Cookie } = require('express-session');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
@@ -47,14 +51,23 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser()); // store in the session
+passport.deserializeUser(User.deserializeUser()); // unstore in the session
+
 app.use((req, res, next) => { // middleware pentru flash. Se va face la fiecare request inainte sa se randeze pagina de la ruta precizata
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
-})
+});
 
-app.use('/campgrounds', campgrounds); //route and path - prefixul utilizat pentru ruta campgrounds
-app.use('/campgrounds/:id/reviews', reviews) //route and path - prefixul utilizat pentru ruta reviews
+app.use('/', userRoutes);
+app.use('/campgrounds', campgroundRoutes); //route and path - prefixul utilizat pentru ruta campgrounds
+app.use('/campgrounds/:id/reviews', reviewRoutes) //route and path - prefixul utilizat pentru ruta reviews
 
 app.get('/', (req, res) => {
     res.render('home');
