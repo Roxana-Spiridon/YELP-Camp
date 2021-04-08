@@ -1,0 +1,40 @@
+ body {
+     height: 100vh;
+     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("https://wallpaperaccess.com/full/2565717.jpg");
+     background-size: cover;
+     background-position: center;
+     text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
+     box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.7);
+ }
+ 
+ .cover-container {
+     max-width: 60vw;
+ }
+ 
+ .nav-link {
+     padding: 0.25rem 0;
+     font-weight: 300;
+     font-family: Arial, Helvetica, sans-serif;
+     color: rgba(255, 255, 255, 0.8);
+     margin-left: 1rem;
+     border-bottom: 0.10rem solid transparent;
+ }
+ 
+ .nav-link:hover {
+     border-bottom-color: rgba(196, 240, 131, 0.8);
+     color: rgba(196, 240, 131, 0.8);
+ }
+ 
+ .nav-link.active {
+     color: rgba(196, 240, 131, 0.8);
+     border-bottom-color: rgba(196, 240, 131, 0.8);
+ }
+ 
+ .btn-secondary {
+     background-color: rgb(116, 153, 61);
+     text-shadow: none;
+ }
+ 
+ .btn-secondary:hover {
+     background-color: rgba(105, 126, 74, 0.637)
+ }
